@@ -1,0 +1,45 @@
+{
+    "Administradores do sistema": {
+        "Global": {
+            "Menu": {
+                "alterarCadastro": {
+                    "ver": true,
+                    "acessar": true,
+                    "incluir": true,
+                    "alterar": true,
+                    "excluir": true
+                },
+                "CAD_USU": {
+                    "ver": true,
+                    "acessar": true,
+                    "incluir": true,
+                    "alterar": true,
+                    "excluir": true
+                },
+                "CAD_GRU": {
+                    "ver": true,
+                    "acessar": true,
+                    "incluir": true,
+                    "alterar": true,
+                    "excluir": true
+                }
+            },
+            "Permissões": {}
+        },
+        "Liturgia": {
+            "Arquivos": {
+                "local": ".liturgia/",
+                "capa": "capa.html"
+            },
+            "Menu": {},
+            "Permissões": {
+                "Data": true,
+                "Passagem": true,
+                "Liturgia": true,
+                "Hino": true,
+                "Louvor": true,
+                "Mensagem": true
+            }
+        }
+    }
+}

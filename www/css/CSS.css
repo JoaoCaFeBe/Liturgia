@@ -1,0 +1,148 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+a,
+tr,
+td,
+li,
+.Titulo,
+button,
+i,
+.par,
+.impar,
+#Mensagens {
+    cursor: pointer;
+}
+
+i:after:not(.limpo) {
+    content: " ";
+    white-space: pre;
+}
+
+td>i:after {
+    content: none !important;
+    white-space: pre;
+}
+
+.col-minima {
+    width: 1%;
+    white-space: nowrap;
+}
+
+/* *********************************************************************** */
+
+.nav-link:not(:last-child) {
+    padding: 0 !important;
+    padding-right: 1rem !important;
+}
+
+.nav-link:last-child {
+    padding: 0 !important;
+}
+
+.nav-item:not(:last-child) {
+    padding: 0 !important;
+    padding-right: 1rem !important;
+}
+
+.nav-item:last-child {
+    padding: 0 !important;
+}
+
+.nav-item.dropdown {
+    padding: 0 !important;
+}
+
+.dropdown-toggle::after {
+    margin-left: 0 !important;
+}
+
+#Menu>li>a::after {
+    content: none !important;
+}
+
+#Menu>li>a>i::after {
+    content: none !important;
+}
+
+#Logomarca {
+    height: 38px;
+}
+
+.dropstart .dropdown-toggle::before {
+    display: none;
+}
+
+/***********************************************************************
+Padroes do sistema
+***********************************************************************/
+
+#AreaDeTrabalho {
+    width: inherit;
+    height: inherit;
+    border: none;
+    overflow: auto;
+    background: transparent;
+}
+
+rodape {
+    padding: .25rem;
+    border-radius: 0 !important;
+}
+
+.Principal {
+    background-image: url('../img/Background.jpg');
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background-size: cover;
+}
+
+.janela {
+    background: transparent;
+    padding: .25rem;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: 100%;
+    gap: 0px;
+    /* padding: 0px; */
+}
+
+.janela.centro {
+    /* --bs-bg-opacity: 1; */
+    /* background-color: transparent !important; */
+    align-items: center !important;
+    /* justify-content: center !important;
+    display: flex !important; */
+}
+
+.scrollJC {
+    overflow-y: overlay !important;
+}
+
+.scrollJC::-webkit-scrollbar {
+    display: none;
+    width: 5px;
+}
+
+.scrollJC::-webkit-scrollbar-thumb {
+    /* background: rgba(255, 255, 255, 0.5); */
+    background: currentColor;
+    opacity: 0.5;
+    backdrop-filter: invert(1);
+}
+
+.scrollJC:hover::-webkit-scrollbar {
+    display: initial;
+}
+
+.jcElipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

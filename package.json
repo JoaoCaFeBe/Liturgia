@@ -4,12 +4,16 @@
   "description": "Aplicativo de cadastro de liturgia para OBS",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "test": "nodemon server.js"
   },
   "repository": {
     "type": "git",
     "url": "Liturgia"
   },
   "author": "João Carlos Freire Belian",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "md5": "^2.3.0"
+  }
 }

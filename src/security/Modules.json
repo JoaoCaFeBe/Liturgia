@@ -1,0 +1,61 @@
+{
+    "Global": {
+        "Menu": {
+            "alterarCadastro": {
+                "tipo": "menuModal",
+                "titulo": "Modificar cadastro",
+                "link": "Dados/usuarioForm.php",
+                "parametros": "{Usuario}",
+                "icone": "fas fa-user-edit",
+                "botoes": "{salvar:{label: 'Salvar', className: 'btn-success alterarCadastro', callback: salvarCadastro}}",
+                "liberado": true
+            },
+            "Procedimentos especiais": {
+                "tipo": "menuPrincipal",
+                "icone": "fa fa-gear",
+                "titulo": "Procedimentos especiais",
+                "classList": "d-admin d-none",
+                "sub": {
+                    "CAD_USU": {
+                        "tipo": "submenu",
+                        "titulo": "Usuários",
+                        "link": "../usuarios.php",
+                        "icone": "fa fa-user",
+                        "classList": "",
+                        "liberado": false
+                    },
+                    "CAD_GRU": {
+                        "tipo": "submenu",
+                        "titulo": "Grupos de usuários",
+                        "link": "../grupos.php",
+                        "icone": "fa fa-users",
+                        "classList": "",
+                        "liberado": false
+                    }
+                }
+            },
+            "init": {
+                "tipo": "menuFuncao",
+                "titulo": "Sair do sistema",
+                "icone": "fa fa-sign-out",
+                "parametros": "",
+                "liberado": true
+            }
+        },
+        "Permissões": {}
+    },
+    "Liturgia": {
+        "Usuários": {
+            "joaocfb@gmail.com": "Administradores do sistema"
+        },
+        "Menu": {},
+        "Permissões": {
+            "Data": false,
+            "Passagem": false,
+            "Liturgia": false,
+            "Hino": false,
+            "Louvor": false,
+            "Mensagem": false
+        }
+    }
+}
