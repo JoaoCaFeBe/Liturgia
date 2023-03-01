@@ -1,0 +1,32 @@
+<table id='tabela{{table}}' class='table table-sm table-hover table-striped table-borderless m-0 tableJC'>
+    <thead class='shadow-sm table-light'>
+        <tr>
+            {{#if edit}}
+            <th class='text-center col-minima'>
+                {{!-- <i class='fas fa-edit'></i> --}}
+            </th>
+            {{/if}}
+            {{#each theader}}
+            <th>
+                {{this}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+    <tbody>
+        {{#each tbody}}
+        <tr id="{{@key}}">
+            {{#if ../edit}}
+            <th id="edit" class='text-center col-minima'>
+                <i class='fas fa-edit'></i>
+            </th>
+            {{/if}}
+            {{#each this}}
+            <td class="{{this.class}}" {{this.on}}>
+                {{this.value}}
+            </td>
+            {{/each}}
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

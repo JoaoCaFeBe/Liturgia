@@ -27,6 +27,9 @@ router.put('/User', (req, res) => {
 router.delete('/User/:email', (req, res) => {
     res.json(User.delete(req.params.email));
 })
+router.get('/User/definitions/:email', (req, res) => {
+    res.json(User.definitions(req.params.email));
+})
 // ----------------------------------------------------------------------------------------------------------------
 router.get('/Groups', (req, res) => {
     res.json(Groups.getAll());

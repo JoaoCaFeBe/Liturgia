@@ -34,6 +34,70 @@ class User {
     static getAll() {
         return Users;
     }
+
+    static list() {
+        return new Promise(resolve => {
+            let list = {},
+                obj = this.getAll(),
+                i = Object.keys(obj).length;
+            list.table = "User";
+            list.layout = "clear";
+            // list.edit = true;
+            list.theader = ["Nome", "Email"];
+            list.tbody = {};
+            // let total = 0;
+            Object.entries(obj).forEach(([key, value]) => {
+                list.tbody[key] = [
+                    { value: value.name },
+                    { value: value.email, class: `col-minima` }
+                ];
+                // total += value.valor;
+                if (--i === 0) {
+                    // list.footer = { name: "Total", total: total };
+                    resolve(list);
+                }
+            });
+        });
+    }
+
+    static definitions(email) {
+        let fieldsDefinitions = {
+            email: {
+                title: "Email",
+                type: "string",
+                input: "email",
+                required: true,
+                defaultValue: "",
+                placeholder: "Email",
+                class: "col-12 col-md-6"
+            },
+            nome: {
+                title: "Nome",
+                type: "string",
+                input: "text",
+                required: true,
+                defaultValue: "",
+                placeholder: "Nome",
+                class: "col-12 col-md-6"
+            },
+            password: {
+                title: "Senha",
+                type: "string",
+                input: "hidden",
+                required: true,
+                defaultValue: "",
+                placeholder: "Senha",
+                class: "col-12 col-md-6"
+            }
+        };
+        if (email) {
+            let user = new User(email);
+            fieldsDefinitions.email.value = user.email;
+            fieldsDefinitions.nome.value = user.name;
+            fieldsDefinitions.password.value = user.password;
+        }
+        return fieldsDefinitions;
+    };
 }
 
 module.exports = User;

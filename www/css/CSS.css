@@ -110,19 +110,15 @@ rodape {
     grid-auto-flow: column;
     grid-template-rows: 100%;
     gap: 0px;
-    /* padding: 0px; */
 }
 
 .janela.centro {
-    /* --bs-bg-opacity: 1; */
-    /* background-color: transparent !important; */
     align-items: center !important;
-    /* justify-content: center !important;
-    display: flex !important; */
 }
 
 .scrollJC {
     overflow-y: overlay !important;
+    padding: 0px;
 }
 
 .scrollJC::-webkit-scrollbar {
@@ -131,7 +127,6 @@ rodape {
 }
 
 .scrollJC::-webkit-scrollbar-thumb {
-    /* background: rgba(255, 255, 255, 0.5); */
     background: currentColor;
     opacity: 0.5;
     backdrop-filter: invert(1);
@@ -145,4 +140,14 @@ rodape {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.card-header {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
 }

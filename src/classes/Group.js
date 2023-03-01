@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-class Groups {
+class Group {
     constructor(name) {
         this.get(name);
     }
@@ -34,3 +34,5 @@ class Groups {
         return Groups;
     }
 }
+
+module.exports = Group;

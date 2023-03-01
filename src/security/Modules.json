@@ -4,7 +4,7 @@
             "alterarCadastro": {
                 "tipo": "menuModal",
                 "titulo": "Modificar cadastro",
-                "link": "Dados/usuarioForm.php",
+                "link": "Dados/usuarioForm.html",
                 "parametros": "{Usuario}",
                 "icone": "fas fa-user-edit",
                 "botoes": "{salvar:{label: 'Salvar', className: 'btn-success alterarCadastro', callback: salvarCadastro}}",
@@ -19,7 +19,7 @@
                     "CAD_USU": {
                         "tipo": "submenu",
                         "titulo": "Usuários",
-                        "link": "../usuarios.php",
+                        "link": "../usuarios.html",
                         "icone": "fa fa-user",
                         "classList": "",
                         "liberado": false
@@ -27,7 +27,7 @@
                     "CAD_GRU": {
                         "tipo": "submenu",
                         "titulo": "Grupos de usuários",
-                        "link": "../grupos.php",
+                        "link": "../grupos.html",
                         "icone": "fa fa-users",
                         "classList": "",
                         "liberado": false
