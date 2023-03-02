@@ -13,9 +13,15 @@ function cadastroUser(id) {
             $.validarFormulario(formUser)
                 .then(qtde => $.getFormJson(formUser))
                 .then(enviar => $.post('/User', { ...dados, ...enviar }))
-                .then(data => { init(); return true; })
-                .then(incluirUsuarios.click())
-                .catch(msg => { $.mensagem(msg); return false; });
+                .then(data => {
+                    init();
+                    incluirUsuarios.click();
+                    return true;
+                })
+                .catch(msg => {
+                    $.mensagem(msg);
+                    return false;
+                });
         }
     }
 
@@ -27,8 +33,14 @@ function cadastroUser(id) {
             $.validarFormulario(formUser)
                 .then(qtde => $.getFormJson(formUser))
                 .then(enviar => $.post('/User', { ...dados, ...enviar }))
-                .then(data => { init(); return true; })
-                .catch(msg => { $.mensagem(msg); return false; });
+                .then(data => {
+                    init();
+                    return true;
+                })
+                .catch(msg => {
+                    $.mensagem(msg);
+                    return false;
+                });
         }
     }
 
@@ -38,7 +50,7 @@ function cadastroUser(id) {
         callback: () => {
             bootbox.confirm('Tem certeza que deseja excluir ?', result => {
                 if (result) {
-                    $.delete('/User', { email: id })
+                    $.delete(`/User/${id}`)
                         .done(() => { init(); return true; })
                         .fail(msg => { $.mensagem(msg); return false; });
                 }
@@ -53,7 +65,7 @@ function cadastroUser(id) {
             bootbox.confirm('Tem certeza que deseja ressetar a senha ?', async result => {
                 if (result) {
                     let dados = await $.formToObj(formUser);
-                    dados.password = md5(dados.email);
+                    dados.password = '';
                     $.put('/User', dados)
                         .done(retorno => {
                             init();
@@ -66,12 +78,12 @@ function cadastroUser(id) {
 
     let botoes = { confirm: salvarNovo, salvar: salvar },
         Titulo = 'Incluir usuário';
-    if (id > 0) {
-        Titulo = 'Alterar usuário nº ' + id;
+    if (id !== 0) {
+        Titulo = 'Alterar usuário ' + id;
         botoes.ressetar = ressetar;
-        if (Permissoes.excluir) {
-            botoes.excluir = excluir;
-        }
+        // if (Permissoes.excluir) {
+        botoes.excluir = excluir;
+        // }
     }
 
     $.formulario('User', id)
@@ -101,13 +113,13 @@ function cadastroUser(id) {
         .catch(msg => { $.mensagem(msg); });
 }
 
-function ressetarSenha(id) {
-    parent.Usuario.senha = parent.Usuario.login;
-    $.post('/Anamnese/src/usuarioFront.php', { acao: 'save', usuario: parent.Usuario })
-        .done(() => {
-            $.mensagem('Senha ressetada com sucesso !');
-        });
-}
+// function ressetarSenha(id) {
+//     parent.Usuario.senha = parent.Usuario.login;
+//     $.post('/Anamnese/src/usuarioFront.php', { acao: 'save', usuario: parent.Usuario })
+//         .done(() => {
+//             $.mensagem('Senha ressetada com sucesso !');
+//         });
+// }
 
 function mudaLogin(texto) {
     texto += ' ';

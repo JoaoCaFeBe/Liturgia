@@ -411,8 +411,8 @@ $.formularioCampos = (campo) => {
         // ---------------------------------------------------------------------------------------------------------------------------------------
         if (campo.input === 'hidden') {
             let valor = campo.value;
-            if (['object', 'array'].indexOf(campo.type)) valor = JSON.stringify(campo.value).replace('\\\\', '');
-            form += ` <input type="hidden" id="${name}" name="${name}" value='${valor}'>\n`;
+            if (['object', 'array'].indexOf(campo.type) >= 0) valor = JSON.stringify(campo.value).replace('\\\\', '');
+            form += `<input type="hidden" id="${name}" name="${name}" value='${valor}'>\n`;
             resolve(form);
         } else {
             let on = Object.entries(campo.on).map(([evento, funcao]) => `on${evento}="${funcao}"`).join(' ');
@@ -525,34 +525,34 @@ $.formularioCampos = (campo) => {
 
 $.getFormJson = async (form) => {
     let fieldsJSON = form.querySelectorAll('.campoJSON');
-    retorno = await new Promise((resolve) => {
+    return new Promise((resolve) => {
         let qtde = fieldsJSON.length,
-            retorno = {};
+            ret = {};
+        if (qtde === 0) resolve(JSON.stringify(ret));
         fieldsJSON.forEach(field => {
             let name = field.id;
             if (field.classList.contains("tableJSON")) {
                 let linhas = field.querySelectorAll('.linhaJSON');
-                retorno[name] = [];
+                ret[name] = [];
                 linhas.forEach(linha => {
                     let campos = linha.querySelectorAll('.form-control, .form-select');
                     let obj = {};
                     campos.forEach(campo => {
                         obj[campo.name] = campo.value;
                     });
-                    retorno[name].push(obj);
+                    ret[name].push(obj);
                 });
             } else if (field.classList.contains("fieldJSON")) {
                 let campos = field.querySelectorAll('.form-control, .form-select');
-                retorno[name] = {};
+                ret[name] = {};
                 campos.forEach(campo => {
                     let value = campo.getAttribute("defaultType") === 'integer' ? parseInt(campo.value) : campo.value;
-                    retorno[name][campo.name] = value;
+                    ret[name][campo.name] = value;
                 });
             }
-            if (!--qtde) resolve(retorno);
+            if (!--qtde) resolve(JSON.stringify(ret));
         });
     });
-    return JSON.stringify(retorno);
 }
 
 $.validarFormulario = (tabela = '') => {

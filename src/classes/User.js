@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require('fs'),
+    md5 = require('md5');
 
 class User {
     constructor(email) {
@@ -14,12 +15,20 @@ class User {
     }
 
     post(user) {
+        if (user.password !== Users[user.email]?.password) {
+            if (user.password !== '') user.password = md5(user.password);
+            else user.password = md5(Users[user.email].email);
+        }
         Users[user.email] = user;
         fs.writeFileSync('./src/security/users.json', JSON.stringify(Users));
         return this;
     }
 
     put(user) {
+        if (user.password !== Users[user.email].password) {
+            if (user.password !== '') user.password = md5(user.password);
+            else user.password = md5(Users[user.email].email);
+        }
         Users[user.email] = user;
         fs.writeFileSync('./src/security/users.json', JSON.stringify(Users));
         return this;
@@ -60,7 +69,7 @@ class User {
         });
     }
 
-    static definitions(email) {
+    static definitions(email = '') {
         let fieldsDefinitions = {
             email: {
                 title: "Email",
@@ -69,16 +78,18 @@ class User {
                 required: true,
                 defaultValue: "",
                 placeholder: "Email",
-                class: "col-12 col-md-6"
+                class: "col-12 col-md-6",
+                value: ""
             },
-            nome: {
+            name: {
                 title: "Nome",
                 type: "string",
                 input: "text",
                 required: true,
                 defaultValue: "",
                 placeholder: "Nome",
-                class: "col-12 col-md-6"
+                class: "col-12 col-md-6",
+                value: ""
             },
             password: {
                 title: "Senha",
@@ -87,15 +98,17 @@ class User {
                 required: true,
                 defaultValue: "",
                 placeholder: "Senha",
-                class: "col-12 col-md-6"
+                class: "col-12 col-md-6",
+                value: ""
             }
         };
         if (email) {
             let user = new User(email);
             fieldsDefinitions.email.value = user.email;
-            fieldsDefinitions.nome.value = user.name;
+            fieldsDefinitions.name.value = user.name;
             fieldsDefinitions.password.value = user.password;
         }
+
         return fieldsDefinitions;
     };
 }

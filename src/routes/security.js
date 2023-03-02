@@ -28,6 +28,7 @@ router.delete('/User/:email', (req, res) => {
     res.json(User.delete(req.params.email));
 })
 router.get('/User/definitions/:email', (req, res) => {
+    if (req.params.email == 0) req.params.email = false;
     res.json(User.definitions(req.params.email));
 })
 // ----------------------------------------------------------------------------------------------------------------
