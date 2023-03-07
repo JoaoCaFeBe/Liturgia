@@ -17,11 +17,9 @@ router.get('/User/:email', (req, res) => {
     res.json(new User(req.params.email));
 })
 router.post('/User', (req, res) => {
-    req.body.password = md5(req.body.password.toUpperCase());
     res.json(new User().post(req.body));
 })
 router.put('/User', (req, res) => {
-    req.body.password = md5(req.body.password.toUpperCase());
     res.json(new User().post(req.body));
 })
 router.delete('/User/:email', (req, res) => {

@@ -16,23 +16,23 @@ bootbox.addLocale('pt-BR', {
     CANCEL: 'Cancelar'
 });
 bootbox.setDefaults({ 'locale': 'pt-BR' });
-// toastr.options = {
-//     "closeButton": false,
-//     "debug": false,
-//     "newestOnTop": false,
-//     "progressBar": true,
-//     "positionClass": "toast-bottom-right",
-//     "preventDuplicates": true,
-//     "onclick": null,
-//     "showDuration": "300",
-//     "hideDuration": "1000",
-//     "timeOut": "5000",
-//     "extendedTimeOut": "1000",
-//     "showEasing": "swing",
-//     "hideEasing": "linear",
-//     "showMethod": "fadeIn",
-//     "hideMethod": "fadeOut"
-// }
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
 // ******************************************************************************************************************
 // Padrões campos
 // ******************************************************************************************************************
@@ -390,6 +390,7 @@ $.formulario = (classe, id = 0) => {
         classe = classe.toAllFirstCase();
         $.get(`/${classe}/definitions/${id}`)
             .done(definicoes => {
+                // console.log('definicoes', definicoes);
                 qtdeCampos = Object.keys(definicoes).length;
                 let form = `<form id="form${classe.toAllFirstCase()}" class="d-grid gap-2" autocomplete=off>\n`;
                 let i = 0, fields = [];
@@ -448,8 +449,8 @@ $.formularioCampos = (campo) => {
                 case "array":
                 case "object":
                     form += ` <div class="bg-opacity-25 bg-secondary mb-2 px-2 pb-2 ${campo.parentClass}">\n`;
-                    form += `   <label for="${name}" class="border-bottom border-light col-form-label form-control-sm fs-5 mb-2 w-100">${campo.title}</label>\n`;
-                    form += `   <div class="campoJSON ${campo.input} ${campo.class}" id="${name}" valorPadrao='${campo.defaultValue}'>\n`;
+                    form += `   <label for="${name}" class="border-bottom border-light col-form-label form-control-sm fs-5 mb-2 w-100 py-2">${campo.title}</label>\n`;
+                    form += `   <div class="campoJSON ${campo.input} ${campo.class} d-grid gap-2" id="${name}" valorPadrao='${campo.defaultValue}'>\n`;
                     qtdeFields = Object.keys(campo.fields).length;
                     if (qtdeFields === 0) {
                         form += `   </div>\n`;
@@ -478,7 +479,11 @@ $.formularioCampos = (campo) => {
                             let onField = Object.entries(campo.on).map(([evento, funcao]) => `on${evento}="${funcao}"`).join(' ');
                             let field = await new Promise((resolve) => {
                                 let form = ``;
-                                switch (item.input) {
+                                switch (item.type) {
+                                    case "hidden":
+                                        form += `<input type="hidden" id="${index}" name="${index}" value="${item.value}">\n`;
+                                        resolve(form);
+                                        break;
                                     case "select":
                                         form += ` <div class="form-floating">`;
                                         form += `     <select class="form-select" id="${index}" name="${index}" value="${item.value}" aria-label="" defaultType="${item.type}">`;
@@ -528,7 +533,7 @@ $.getFormJson = async (form) => {
     return new Promise((resolve) => {
         let qtde = fieldsJSON.length,
             ret = {};
-        if (qtde === 0) resolve(JSON.stringify(ret));
+        if (qtde === 0) resolve(ret);
         fieldsJSON.forEach(field => {
             let name = field.id;
             if (field.classList.contains("tableJSON")) {
@@ -550,7 +555,9 @@ $.getFormJson = async (form) => {
                     ret[name][campo.name] = value;
                 });
             }
-            if (!--qtde) resolve(JSON.stringify(ret));
+            if (!--qtde) {
+                resolve(ret);
+            }
         });
     });
 }
@@ -568,6 +575,90 @@ $.validarFormulario = (tabela = '') => {
         } else {
             $(form).addClass('was-validated');
             resolve(queryAll('.campoJSON').length);
+        }
+    })
+}
+
+$.aguarde = (Mensagem = 'Aguarde, processando dados...', Classe = 'alert-info') => {
+    Classe = 'alert mb-0 ' + Classe;
+    $('.aguarde').modal('hide');
+    bootbox.dialog({
+        message: '<div class="fa-2x"><i class="fas fa-circle-notch fa-spin"></i>&nbsp;' + Mensagem + '</div>',
+        closeButton: false,
+        className: 'aguarde bootbox-secondary',
+        centerVertical: true,
+        size: "large",
+    }).init(function () {
+        $('.aguarde .modal-body').addClass(Classe).addClass("text-nowrap");
+    });
+}
+
+$.mensagem = (Mensagem = '', ...params) => {
+    let titulo = '',
+        background = 'info' /* warning, success, error */;
+    params.forEach(param => {
+        if (['info', 'warning', 'success', 'error'].includes(param)) {
+            background = param;
+        } else {
+            titulo = param;
+        }
+    });
+
+    return new Promise(resolve => {
+        let opcoes = {
+            onHidden: function () {
+                resolve(true);
+            }
+        };
+        switch (background) {
+            case 'warning':
+                toastr.warning(Mensagem, titulo, opcoes);
+                break;
+            case 'success':
+                toastr.success(Mensagem, titulo, opcoes);
+                break;
+            case 'error':
+                toastr.error(Mensagem, titulo, opcoes);
+                break;
+            default:
+                toastr.info(Mensagem, titulo, opcoes);
+                break;
+        }
+    })
+}
+
+$.alerta = (Mensagem = '', ...params) => {
+    let titulo = '',
+        background = 'info' /* warning, success, error */;
+    params.forEach(param => {
+        if (['info', 'warning', 'success', 'error'].includes(param)) {
+            background = param;
+        } else {
+            titulo = param;
+        }
+    });
+
+    return new Promise(resolve => {
+        let opcoes = {
+            timeOut: 0,
+            extendedTimeOut: 0,
+            onHidden: function () {
+                resolve(true);
+            }
+        };
+        switch (background) {
+            case 'warning':
+                toastr.warning(Mensagem, titulo, opcoes);
+                break;
+            case 'success':
+                toastr.success(Mensagem, titulo, opcoes);
+                break;
+            case 'error':
+                toastr.error(Mensagem, titulo, opcoes);
+                break;
+            default:
+                toastr.info(Mensagem, titulo, opcoes);
+                break;
         }
     })
 }

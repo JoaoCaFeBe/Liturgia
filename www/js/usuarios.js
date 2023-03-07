@@ -28,11 +28,14 @@ function cadastroUser(id) {
     var salvar = {
         label: 'Salvar',
         className: 'btn-success',
-        callback: async () => {
-            let dados = await $.formToObj(formUser);
+        callback: () => {
             $.validarFormulario(formUser)
                 .then(qtde => $.getFormJson(formUser))
-                .then(enviar => $.post('/User', { ...dados, ...enviar }))
+                .then(enviar => {
+                    let dados = $.formToObj(formUser);
+                    // dados = { ...dados, ...enviar };
+                    $.post('/User', dados);
+                })
                 .then(data => {
                     init();
                     return true;
@@ -103,7 +106,8 @@ function cadastroUser(id) {
                     $('input').off('click').on('click', function () { this.focus(); this.select(); });
                 },
                 onShown: function () {
-                    $('.foco').focus().select();
+                    document.querySelector('form input,select').focus();
+                    // $('.foco').focus().select();
                 },
                 onHidden: function () {
                     $('body').removeClass('modal-open');
