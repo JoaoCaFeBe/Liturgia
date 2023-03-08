@@ -25,6 +25,7 @@ const login = () => {
                 parent.Module.arquivos = data.arquivos;
                 parent.User.name = data.name;
                 parent.User.email = data.email;
+                parent.User.dados = data.dados;
                 parent.User.group = data.group;
                 parent.$.menu(data.menu, data.name, data.permissões, data.arquivos);
             }

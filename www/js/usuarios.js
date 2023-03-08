@@ -32,6 +32,7 @@ function cadastroUser(id) {
             $.validarFormulario(formUser)
                 .then(qtde => $.getFormJson(formUser))
                 .then(enviar => {
+                    console.log(enviar);
                     let dados = $.formToObj(formUser);
                     // dados = { ...dados, ...enviar };
                     $.post('/User', dados);

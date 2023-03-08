@@ -1,5 +1,8 @@
+const e = require('express');
+
 const fs = require('fs'),
-    md5 = require('md5');
+    md5 = require('md5'),
+    toAllFirstCase = require('../functions').toAllFirstCase;
 
 class User {
     constructor(email) {
@@ -25,7 +28,6 @@ class User {
 
     post(user) {
 
-        user.password = user.password.toUpperCase();
         user.dados = {};
         user.dados.endereço = user.endereço;
         user.dados.telefone = user.telefone;
@@ -33,8 +35,9 @@ class User {
         delete user.telefone;
 
         if (user.password !== Users[user.email]?.password) {
+            user.password = user.password.toUpperCase();
             if (user.password !== '') user.password = md5(user.password);
-            else user.password = md5(Users[user.email].email);
+            else user.password = md5(user.email);
         }
 
         Users[user.email] = user;
@@ -43,25 +46,25 @@ class User {
         return this;
     }
 
-    put(user) {
+    // put(user) {
 
-        user.password = user.password.toUpperCase();
-        user.dados = {};
-        user.dados.endereço = user.endereço;
-        user.dados.telefone = user.telefone;
-        delete user.endereço;
-        delete user.telefone;
+    //     user.password = user.password.toUpperCase();
+    //     user.dados = {};
+    //     user.dados.endereço = user.endereço;
+    //     user.dados.telefone = user.telefone;
+    //     delete user.endereço;
+    //     delete user.telefone;
 
-        if (user.password !== Users[user.email].password) {
-            if (user.password !== '') user.password = md5(user.password);
-            else user.password = md5(Users[user.email].email);
-        }
+    //     if (user.password !== Users[user.email].password) {
+    //         if (user.password !== '') user.password = md5(user.password);
+    //         else user.password = md5(Users[user.email].email);
+    //     }
 
-        Users[user.email] = user;
+    //     Users[user.email] = user;
 
-        fs.writeFileSync('./src/security/users.json', JSON.stringify(Users));
-        return this;
-    }
+    //     fs.writeFileSync('./src/security/users.json', JSON.stringify(Users));
+    //     return this;
+    // }
 
     static delete(email) {
         delete Users[email];
@@ -99,6 +102,7 @@ class User {
     }
 
     static definitions(email = '') {
+        if (email == 0) email = '';
         let fieldsDefinitions = {
             email: {
                 title: "Email",
@@ -118,7 +122,10 @@ class User {
                 defaultValue: "",
                 placeholder: "Nome",
                 class: "",
-                value: ""
+                value: "",
+                on: {
+                    "change": "this.value = this.value.toAllFirstCase();"
+                }
             },
             password: {
                 title: "Senha",
@@ -143,12 +150,12 @@ class User {
                 class: ""
             }
         };
-        let i = Object.keys(fieldsDefinitions).length;
+        let user = new User(email);
         Object.entries(fieldsDefinitions).forEach(([key, value]) => {
+            fieldsDefinitions[key].value = user[key];
             if (["object", "array"].includes(value.type)) {
-                fieldsDefinitions[key].value = fieldsDefinitions[key].defaultValue;
                 let fields = {};
-                let j = Object.keys(fieldsDefinitions[key].defaultValue).length;
+                let i = Object.keys(fieldsDefinitions[key].defaultValue).length;
                 Object.entries(fieldsDefinitions[key].defaultValue).forEach(([key2, value2]) => {
                     fields[key2] = {};
                     fields[key2].type = typeof value2;
@@ -169,31 +176,17 @@ class User {
                     fields[key2].title = toAllFirstCase(key2);
                     fields[key2].placeholder = toAllFirstCase(key2);
                     fields[key2].required = false;
-                    fields[key2].value = value2;
+                    fields[key2].value = user[key][key2];
                     fields[key2].class = "";
                     fields[key2].style = "";
                     fields[key2].parentClass = "";
                     fields[key2].on = [];
-                    if (!--j) fieldsDefinitions[key].fields = fields;
+                    if (!--i) fieldsDefinitions[key].fields = fields;
                 })
-            }
-            if (!--i) {
-
-                if (email) {
-                    let user = new User(email);
-                    fieldsDefinitions.email.value = user.email;
-                    fieldsDefinitions.name.value = user.name;
-                    fieldsDefinitions.password.value = user.password;
-                    fieldsDefinitions.dados.value = user.dados;
-                }
             }
         });
         return fieldsDefinitions;
     };
-}
-
-const toAllFirstCase = (str) => {
-    return str.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
 }
 
 module.exports = User;

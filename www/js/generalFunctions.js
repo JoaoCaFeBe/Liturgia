@@ -98,8 +98,6 @@ $.each(["put", "delete"], function (_i, method) {
     };
 });
 
-
-
 $.fn.extend({
     capitalize: function (lower = false) {
         $(this).val((lower ? $(this).val().toLowerCase() : $(this).val()).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase()));
@@ -390,7 +388,6 @@ $.formulario = (classe, id = 0) => {
         classe = classe.toAllFirstCase();
         $.get(`/${classe}/definitions/${id}`)
             .done(definicoes => {
-                // console.log('definicoes', definicoes);
                 qtdeCampos = Object.keys(definicoes).length;
                 let form = `<form id="form${classe.toAllFirstCase()}" class="d-grid gap-2" autocomplete=off>\n`;
                 let i = 0, fields = [];
