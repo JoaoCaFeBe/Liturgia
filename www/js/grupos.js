@@ -1,22 +1,18 @@
 function init() {
-    $.get('/Lista/User')
-        .done(result => { $('#bodyUsuarios').html(result); })
-        .always(() => { $.funcoesTabela('User') });
+    $.get('/Lista/Group')
+        .done(result => { $('#bodyGroup').html(result); })
+        .always(() => { $.funcoesTabela('Group') });
 };
 
-function cadastroUser(id) {
+function cadastroGroup(id) {
     var salvarNovo = {
         label: 'Salvar +',
         className: 'btn-success',
         callback: async () => {
-            $.validarFormulario(formUser)
-                .then(qtde => $.getFormJson(formUser))
-                .then(enviar => {
-                    // console.log(enviar);
-                    let dados = $.formToObj(formUser);
-                    // dados = { ...dados, ...enviar };
-                    $.post('/User', dados);
-                })
+            let dados = await $.formToObj(formGroup);
+            $.validarFormulario(formGroup)
+                .then(qtde => $.getFormJson(formGroup))
+                .then(enviar => $.post('/Group', { ...dados, ...enviar }))
                 .then(data => {
                     init();
                     incluirUsuarios.click();
@@ -33,13 +29,14 @@ function cadastroUser(id) {
         label: 'Salvar',
         className: 'btn-success',
         callback: () => {
-            $.validarFormulario(formUser)
-                .then(qtde => $.getFormJson(formUser))
+            $.validarFormulario(formGroup)
+                .then(qtde => $.getFormJson(formGroup))
                 .then(enviar => {
                     // console.log(enviar);
-                    let dados = $.formToObj(formUser);
+                    let dados = $.formToObj(formGroup);
                     // dados = { ...dados, ...enviar };
-                    $.post('/User', dados);
+                    $.post('/Group', dados)
+                        .done(groups => console.log(groups))
                 })
                 .then(data => {
                     init();
@@ -58,7 +55,7 @@ function cadastroUser(id) {
         callback: () => {
             bootbox.confirm('Tem certeza que deseja excluir ?', result => {
                 if (result) {
-                    $.delete(`/User/${id}`)
+                    $.delete(`/Group/${id}`)
                         .done(() => { init(); return true; })
                         .fail(msg => { $.mensagem(msg); return false; });
                 }
@@ -66,35 +63,16 @@ function cadastroUser(id) {
         }
     }
 
-    var ressetar = {
-        label: 'Ressetar senha',
-        className: 'btn-danger',
-        callback: () => {
-            bootbox.confirm('Tem certeza que deseja ressetar a senha ?', async result => {
-                if (result) {
-                    let dados = await $.formToObj(formUser);
-                    dados.password = '';
-                    $.put('/User', dados)
-                        .done(retorno => {
-                            init();
-                            $.mensagem('Senha ressetada com sucesso !');
-                        });
-                }
-            });
-        }
-    }
-
     let botoes = { confirm: salvarNovo, salvar: salvar },
-        Titulo = 'Incluir usuário';
+        Titulo = 'Incluir grupo';
     if (id !== 0) {
-        Titulo = 'Alterar usuário ' + id;
-        botoes.ressetar = ressetar;
+        Titulo = 'Alterar grupo ' + id;
         // if (Permissoes.excluir) {
         botoes.excluir = excluir;
         // }
     }
 
-    $.formulario('User', id)
+    $.formulario('Group', id)
         .then(result => {
             bootbox.dialog({
                 size: 'large',
@@ -105,14 +83,13 @@ function cadastroUser(id) {
                 buttons: botoes,
                 centerVertical: true,
                 scrollable: true,
-                className: 'userForm',
+                className: 'GroupForm',
                 onShow: function () {
                     $('body').addClass('modal-open');
                     $('input').off('click').on('click', function () { this.focus(); this.select(); });
                 },
                 onShown: function () {
                     document.querySelector('form input,select').focus();
-                    // $('.foco').focus().select();
                 },
                 onHidden: function () {
                     $('body').removeClass('modal-open');

@@ -1,1 +1,20 @@
-{"joaocfb@gmail.com":{"email":"joaocfb@gmail.com","name":"João Carlos Freire Belian","password":"8e5024bb6b43ecd1898d213dc175b788","dados":{"endereço":"Rua Visconde de Itaparica, 174, Apto 201-A","telefone":"(81) 98858-1285"}},"dellydipm@gmail.com":{"email":"dellydipm@gmail.com","name":"Delly Grace Gouveia Diniz Freire Belian","password":"46ddf1c260accc3e349fe19c0c52f3c4","dados":{"endereço":"Rua Visconde de Itaparica, 174, Apto 201-A","telefone":"(81) 98629-5132"}}}
+{
+    "joaocfb@gmail.com": {
+        "email": "joaocfb@gmail.com",
+        "name": "João Carlos Freire Belian",
+        "password": "8e5024bb6b43ecd1898d213dc175b788",
+        "dados": {
+            "endereço": "Rua Visconde de Itaparica, 174, Apto 201-A",
+            "telefone": "(81) 98858-1285"
+        }
+    },
+    "dellydipm@gmail.com": {
+        "email": "dellydipm@gmail.com",
+        "name": "Delly Grace Gouveia Diniz Freire Belian",
+        "password": "46ddf1c260accc3e349fe19c0c52f3c4",
+        "dados": {
+            "endereço": "Rua Visconde de Itaparica, 174, Apto 201-A",
+            "telefone": "(81) 98629-5132"
+        }
+    }
+}

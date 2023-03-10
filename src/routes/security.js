@@ -3,11 +3,11 @@ var express = require('express'),
     md5 = require('md5'),
     router = express.Router();
 // ----------------------------------------------------------------------------------------------------------------
-const User = require('../classes/User.js');
-// ----------------------------------------------------------------------------------------------------------------
 router.get('/Modules', (req, res) => {
     res.json(Modules);
 })
+// ----------------------------------------------------------------------------------------------------------------
+const User = require('../classes/User.js');
 // ----------------------------------------------------------------------------------------------------------------
 router.get('/Users', (req, res) => {
     res.json(User.getAll());
@@ -30,6 +30,8 @@ router.get('/User/definitions/:email', (req, res) => {
     res.json(User.definitions(req.params.email));
 })
 // ----------------------------------------------------------------------------------------------------------------
+const Group = require('../classes/Group.js');
+// ----------------------------------------------------------------------------------------------------------------
 router.get('/Groups', (req, res) => {
     res.json(Groups.getAll());
 })
@@ -45,6 +47,11 @@ router.put('/Group', (req, res) => {
 })
 router.delete('/Group/:name', (req, res) => {
     res.json(Group.delete(req.params.name));
+})
+router.get('/Group/definitions/:name', async (req, res) => {
+    if (req.params.name == 0) req.params.name = false;
+    retorno = await Group.definitions(req.params.name);
+    res.json(retorno);
 })
 // ----------------------------------------------------------------------------------------------------------------
 router.post('/Login', (req, res) => {

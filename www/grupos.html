@@ -33,27 +33,25 @@
         crossorigin='anonymous' />
     <!-- ---------------------------------------------------------------------------------------------------------------- -->
     <link rel="stylesheet" href="css/CSS.css">
-    <script src="js/usuarios.js"></script>
+    <script src="js/grupos.js"></script>
     <script src="js/generalFunctions.js"></script>
 </head>
 
 <body class='janela' onload='init();'>
-    <div class='card bg-light bg-opacity-75' id='cardUsuarios'>
-        <div class='card-header header-toolbar bg-dark text-white' id='headerUsuarios'>
-            <titulo><i class='fa fa-user'></i>&nbsp;
-                Cadastro de Usuários
-            </titulo>
+    <div class='card bg-light bg-opacity-75' id='cardGroup'>
+        <div class='card-header header-toolbar bg-dark text-white' id='headerGroup'>
+            <titulo><i class='fa fa-document'></i>&nbsp;Cadastro de grupos</titulo>
             <barra class='btn-toolbar btn-group-sm'>
-                <i id='incluirUsuarios' class='fa-solid fa-plus' title='Novo usuário' onclick='cadastroUser(0);'></i>
+                <i id='incluirUsuarios' class='fa-solid fa-plus' title='Novo usuário' onclick='cadastroGroup(0);'></i>
             </barra>
         </div>
-        <div class='card-body scrollJC' id='bodyUsuarios'>
+        <div class='card-body scrollJC' id='bodyGroup' style='overflow-y: auto;'>
 
         </div>
-        <div class='card-footer p-1' id='footerUsuarios'>
+        <div class='card-footer p-1' id='footerGroup'>
             <div class='input-group'>
-                <input type='text' id='filtroUsuarios' class='form-control' placeholder='Pesquisar'
-                    aria-describedby='basic-addon1' oninput='$(`#tabelaUsuarios`).filtra(this.value, 1);'>
+                <input type='text' id='filtroGroup' class='form-control' placeholder='Pesquisar'
+                    aria-describedby='basic-addon1' oninput='$(`#tabelaGroup`).filtra(this.value, 1);'>
                 <i class='fa fa-search align-content-center d-flex input-group-text'></i>
             </div>
         </div>
